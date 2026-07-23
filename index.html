@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow Pro - Blue Edition</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Tema Claro (App Window Premium) */
+            --bg-body: #E2E8F0; /* Fondo gris claro exterior */
+            --bg-app: #F8FAFC;  /* Fondo de la app (sidebar) */
+            --bg-card: #FFFFFF; /* Tarjetas blancas */
+            --bg-subtle: #F1F5F9;
+            --bg-hover: #F1F5F9;
+            
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --text-light: #94A3B8;
+            
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.05);
+            --shadow-float: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+            
+            /* Tonos Azules Premium */
+            --primary: #2563EB;
+            --primary-dark: #1E3A8A;
+            --primary-light: #EFF6FF;
+            --primary-border: #BFDBFE;
+            --hero-grad: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            
+            /* Estatus & Prioridades */
+            --success: #10B981; --success-bg: #ECFDF5;
+            --warning: #F59E0B; --warning-bg: #FFFBEB;
+            --danger: #EF4444; --danger-bg: #FEF2F2;
+            --info: #8B5CF6; --info-bg: #F5F3FF;
+
+            /* Radios */
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        [data-theme="dark"] {
+            /* Tema Oscuro */
+            --bg-body: #020617;
+            --bg-app: #0F172A;
+            --bg-card: #1E293B;
+            --bg-subtle: #0B1120;
+            --bg-hover: #334155;
+            
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --text-light: #475569;
+            
+            --border: #334155;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            
+            --primary: #3B82F6;
+            --primary-dark: #1D4ED8;
+            --primary-light: #1E3A8A;
+            --primary-border: #1E3A8A;
+            --hero-grad: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+
+            --success-bg: #064E3B;
+            --warning-bg: #78350F;
+            --danger-bg: #7F1D1D;
+            --info-bg: #4C1D95;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); -webkit-font-smoothing: antialiased; transition: 0.3s; overflow: hidden; padding: 24px; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; outline: none; }
+        input, select { font-family: inherit; outline: none; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+
+        #view-login {
+            position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at 15% 20%, var(--primary-light) 0%, transparent 45%), var(--bg-body);
+            padding: 24px; transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .login-card {
+            width: 100%; max-width: 400px; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius-xl); padding: 40px 32px; box-shadow: var(--shadow-float);
+            animation: riseUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes riseUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; justify-content: center;}
+        .login-brand .icon { width: 40px; height: 40px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .login-brand .name { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        
+        .login-card h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+        .login-card p.sub { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; text-align: center; }
+        
+        .field { margin-bottom: 20px; }
+        .field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+        .field input, .field select { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); color: var(--text-main); font-size: 14px; transition: 0.2s; }
+        .field input:focus, .field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); background: var(--bg-card); }
+        
+        .btn { border-radius: 99px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-dark); color: white; border: 1px solid transparent; }
+        .btn-primary:hover { background: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); transform: translateY(-1px); }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); background: var(--bg-card); }
+        .btn-outline:hover { background: var(--bg-hover); border-color: var(--text-muted); }
+        .btn-sm { font-size: 13px; padding: 8px 16px; }
+        .btn-lg { font-size: 14px; padding: 12px 24px; width: 100%; }
+        
+        .demo-note { margin-top: 24px; padding: 12px; border-radius: var(--radius-md); background: var(--warning-bg); border: 1px solid var(--warning); color: var(--warning); font-size: 12px; display: flex; gap: 8px; font-weight: 500; }
+
+        #app-shell { display: none; width: 100%; max-width: 1600px; height: 100%; background: var(--bg-app); border-radius: var(--radius-xl); box-shadow: var(--shadow-float); overflow: hidden; opacity: 0; transition: opacity 0.4s ease; display: flex; border: 1px solid var(--border);}
+        
+        .sidebar { width: 260px; padding: 32px 20px; display: flex; flex-direction: column; flex-shrink: 0; }
+        
+        .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; padding: 0 10px; }
+        .brand .icon { font-size: 24px; color: var(--primary-dark); }
+        [data-theme="dark"] .brand .icon { color: var(--primary); }
+        .brand .name { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+
+        .nav-title { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; padding: 0 10px; margin-top: 16px;}
+        .nav-list { margin-bottom: 16px; display: flex; flex-direction: column; gap: 4px;}
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius-md);
+            color: var(--text-muted); font-weight: 500; font-size: 13.5px; transition: all 0.2s; width: 100%;
+        }
+        .nav-item:hover { background-color: var(--bg-hover); color: var(--text-main); }
+        .nav-item.active { background-color: var(--primary-light); color: var(--primary-dark); font-weight: 600; position: relative; }
+        [data-theme="dark"] .nav-item.active { color: var(--primary); }
+        .nav-item.active::before { content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%); height: 20px; width: 4px; background-color: var(--primary); border-radius: 4px; }
+        .nav-item i { font-size: 16px; width: 20px; text-align: center; }
+        .badge-count { margin-left: auto; background-color: var(--primary-dark); color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+
+        .right-area { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg-card); border-left: 1px solid var(--border); border-radius: var(--radius-xl) 0 0 var(--radius-xl); box-shadow: -4px 0 15px rgba(0,0,0,0.02);}
+        
+        .header { height: 76px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        
+        .search-container { display: flex; align-items: center; gap: 10px; background: var(--bg-subtle); padding: 10px 16px; border-radius: var(--radius-md); width: 340px; transition: 0.2s; border: 1px solid transparent; }
+        .search-container:focus-within { border-color: var(--primary-border); background: var(--bg-card); box-shadow: 0 0 0 3px var(--primary-light); }
+        .search-container i { color: var(--text-muted); font-size: 14px; }
+        .search-container input { border: none; background: transparent; width: 100%; font-size: 13.5px; color: var(--text-main); }
+        .search-container .kbd { background: var(--border); color: var(--text-muted); font-size: 11px; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-weight: 600;}
+
+        .user-actions { display: flex; align-items: center; gap: 16px; }
+        .icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: 0.2s; position: relative; background: var(--bg-card);}
+        .icon-btn:hover { background: var(--bg-hover); color: var(--text-main); }
+        .icon-btn .dot { position: absolute; top: 8px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid var(--bg-card); }
+        
+        .profile-pill { display: flex; align-items: center; gap: 12px; background: var(--bg-subtle); padding: 6px 16px 6px 6px; border-radius: 99px; border: 1px solid var(--border);}
+        .profile-pill .avatar { width: 32px; height: 32px; background: var(--primary-light); color: var(--primary-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+        .profile-pill .info h4 { font-size: 13px; font-weight: 600; line-height: 1.2; }
+        .profile-pill .info p { font-size: 11px; color: var(--text-muted); }
+
+        .content-area { flex: 1; padding: 32px; overflow-y: auto; position: relative; }
+        
+        .view { display: none; flex-direction: column; gap: 24px; animation: fadeIn 0.3s ease; }
+        .view.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;}
+        .page-header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .page-header p { font-size: 14px; color: var(--text-muted); }
+
+        .card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); position: relative;}
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .card-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 400;}
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .stat-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; background: var(--bg-card); position: relative; overflow: hidden; box-shadow: var(--shadow-sm);}
+        .stat-card.dark { background: var(--primary-dark); color: white; border: none; }
+        
+        .stat-title { font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--text-muted); }
+        .stat-card.dark .stat-title { color: rgba(255,255,255,0.8); }
+        .stat-val { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; line-height: 1;}
+        
+        .stat-trend { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; background: var(--bg-subtle); padding: 4px 8px; border-radius: var(--radius-sm); font-weight: 500; color: var(--text-muted);}
+        .stat-card.dark .stat-trend { background: rgba(255,255,255,0.15); color: white; }
+        .trend-icon { color: var(--success); }
+        .stat-card.dark .trend-icon { color: #86EFAC; }
+        
+        .arrow-link { position: absolute; top: 20px; right: 20px; width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); font-size: 12px; transition: 0.2s; background: var(--bg-card);}
+        .arrow-link:hover { background: var(--bg-hover); }
+        .stat-card.dark .arrow-link { border-color: rgba(255,255,255,0.3); color: white; background: transparent;}
+        .stat-card.dark .arrow-link:hover { background: rgba(255,255,255,0.1); }
+
+        .dash-grid-mid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; }
+
+        /* Analiticas (Bar Chart Vertical) */
+        .css-bar-chart { height: 160px; display: flex; align-items: flex-end; justify-content: space-between; padding-top: 20px; gap: 8px;}
+        .bar-col { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; height: 100%;}
+        .bar-wrap { height: 100%; width: 100%; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+        .bar { width: 100%; max-width: 40px; border-radius: 20px; transition: height 1s ease; }
+        .bar.solid-light { background-color: var(--primary); opacity: 0.6; }
+        .bar.solid-dark { background-color: var(--primary-dark); }
+        .bar.striped { background: repeating-linear-gradient(-45deg, var(--bg-subtle), var(--bg-subtle) 4px, var(--border) 4px, var(--border) 8px); border: 1px solid var(--border); }
+        .bar-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .bar-tooltip { position: absolute; top: -30px; background: var(--bg-card); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow-sm); z-index: 2; color: var(--text-main); opacity: 0; transition: 0.2s;}
+        .bar-wrap:hover .bar-tooltip { opacity: 1; transform: translateY(-5px); }
+
+        /* Donut Chart (Progreso Global Premium) */
+        .donut-wrap { position: relative; width: 160px; height: 160px; margin: 10px auto; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: conic-gradient(var(--primary-dark) 0% 41%, var(--primary) 41% 73%, var(--border) 73% 100%); }
+        .donut-wrap::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 8px); mask-image: conic-gradient(transparent 0% 73%, black 73% 100%); -webkit-mask-image: conic-gradient(transparent 0% 73%, black 73% 100%); z-index: 1;}
+        [data-theme="dark"] .donut-wrap::before { background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.05) 4px, rgba(255,255,255,0.05) 8px); }
+        .donut-inner { width: 110px; height: 110px; background: var(--bg-card); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); z-index: 2;}
+        .donut-inner h2 { font-size: 34px; font-weight: 800; color: var(--text-main); line-height: 1; letter-spacing: -1px;}
+        .donut-inner p { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 4px; text-align: center;}
+        
+        .chart-legend { display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap;}
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-muted); font-weight: 600; }
+        
+        .h-bars-container { display: flex; flex-direction: column; gap: 16px; margin-top: 10px;}
+        .h-bar-row { display: flex; flex-direction: column; gap: 6px; }
+        .h-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .h-bar-label span:last-child { color: var(--text-muted); font-weight: 500; font-family: 'JetBrains Mono', monospace;}
+        .bar-bg { width: 100%; height: 8px; border-radius: 8px; background: var(--bg-subtle); border: 1px solid var(--border); overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 8px; background: var(--primary); transition: width 1s ease; }
+
+        .list-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px;}
+        .list-item:last-child { margin-bottom: 0; }
+        .item-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;}
+        .item-info { flex: 1; min-width: 0; }
+        .item-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .item-info p { font-size: 11px; color: var(--text-muted);}
+        
+        .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap;}
+        
+        .table-toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .select-chip { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-card); font-size: 13px; color: var(--text-muted); }
+        .select-chip input, .select-chip select { border: none; background: transparent; color: var(--text-main); outline: none; width: 100%; font-weight: 500;}
+        
+        .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+        thead th { font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--bg-subtle); white-space: nowrap; letter-spacing: 0.5px;}
+        tbody td { padding: 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tbody tr:hover { background: var(--bg-hover); }
+        tbody tr:last-child td { border-bottom: none; }
+        
+        .id-cell { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 12px; font-weight: 600;}
+        .title-cell { font-weight: 600; color: var(--text-main); }
+        .title-cell .sub { font-weight: 400; color: var(--text-muted); font-size: 12px; margin-top: 4px; }
+        .assignee { display: flex; align-items: center; gap: 8px; font-weight: 500;}
+        .assignee .avatar { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; width: 28px; height: 28px; font-size: 11px; color: var(--text-main);}
+        
+        .progress-mini { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--text-muted); font-weight: 600;}
+        .row-actions { display: flex; gap: 4px; opacity: 0; transition: 0.2s; }
+        tbody tr:hover .row-actions { opacity: 1; }
+
+        .assign-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: flex-start; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .kanban-wrap { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px; min-height: 500px;}
+        .kanban-col { min-width: 280px; max-width: 280px; flex-shrink: 0; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; flex-direction: column; }
+        .kanban-col-head { display: flex; align-items: center; gap: 8px; padding: 16px; border-bottom: 1px solid var(--border); }
+        .kanban-col-head h4 { font-size: 14px; font-weight: 700; flex: 1; }
+        .kanban-col-head .count { font-size: 12px; color: var(--text-muted); background: var(--bg-card); padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid var(--border);}
+        .kanban-col-body { padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+        
+        .kcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; cursor: grab; transition: 0.2s; box-shadow: var(--shadow-sm); }
+        .kcard:hover { box-shadow: var(--shadow-md); border-color: var(--primary-border); transform: translateY(-2px);}
+        .kcard.dragging { opacity: 0.5; border: 2px dashed var(--primary); }
+        .kcard .kid { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 8px; }
+        .kcard .ktitle { font-size: 13.5px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+        .kcard .kfoot { display: flex; align-items: center; justify-content: space-between; }
+        .kanban-col-body.dragover { background: var(--primary-light); border: 2px dashed var(--primary-border); border-radius: var(--radius-md);}
+
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-card { background: var(--bg-card); width: 100%; max-width: 480px; border-radius: var(--radius-xl); padding: 32px; box-shadow: var(--shadow-float); transform: translateY(20px); transition: 0.3s; border: 1px solid var(--border);}
+        .modal-overlay.show .modal-card { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .modal-header h3 { font-size: 18px; font-weight: 800; }
+        .close-btn { font-size: 20px; color: var(--text-muted); cursor: pointer; transition: 0.2s;}
+        .close-btn:hover { color: var(--danger); }
+
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--text-main); color: var(--bg-card); padding: 12px 24px; border-radius: 99px;
+            font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow-float); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 3000; display: flex; align-items: center; gap: 10px;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dash-grid-mid { grid-template-columns: 1fr 1fr; }
+            .dash-grid-mid .card:first-child { grid-column: 1 / -1; }
+        }
+        @media (max-width: 980px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .assign-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            #app-shell { border-radius: 0; border: none; }
+            .sidebar { display: none; }
+            .right-area { border-radius: 0; border-left: none; }
+            .dash-grid-mid { grid-template-columns: 1fr; }
+            .search-container { width: auto; flex: 1; margin-right: 12px;}
+            .content-area { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="view-login" style="display: flex;">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="name">TaskFlow Pro</div>
+            </div>
+            <h1>Inicia sesión</h1>
+            <p class="sub">Accede a tu panel de control de tareas.</p>
+            <form onsubmit="event.preventDefault(); doLogin();">
+                <div class="field">
+                    <label>Correo electrónico</label>
+                    <input type="email" placeholder="tu@empresa.com" value="ana.torres@empresa.com" required>
+                </div>
+                <div class="field">
+                    <label>Contraseña</label>
+                    <input type="password" placeholder="••••••••" value="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Entrar al Sistema</button>
+            </form>
+            <div class="demo-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Mockup visual: Presiona "Entrar" para ver el sistema.</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="icon"><i class="fa-solid fa-layer-group"></i></div>
+                <div class="name">TaskFlow</div>
+            </div>
+
+            <div class="nav-title">MENÚ PRINCIPAL</div>
+            <ul class="nav-list">
+                <li><button class="nav-item active" data-view="dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</button></li>
+                <li><button class="nav-item" data-view="tareas"><i class="fa-regular fa-circle-check"></i> Tareas <span class="badge-count">24</span></button></li>
+                <li><button class="nav-item" data-view="asignaciones"><i class="fa-solid fa-users-viewfinder"></i> Asignaciones</button></li>
+                <li><button class="nav-item" data-view="kanban"><i class="fa-solid fa-table-columns"></i> Kanban</button></li>
+            </ul>
+
+            <div class="nav-title">ADMINISTRACIÓN</div>
+            <ul class="nav-list">
+                <li><button class="nav-item" data-view="usuarios"><i class="fa-regular fa-user"></i> Usuarios <span class="badge-count">9</span></button></li>
+                <li><button class="nav-item" data-view="roles"><i class="fa-solid fa-shield-halved"></i> Roles y permisos</button></li>
+            </ul>
+        </aside>
+
+        <div class="right-area">
+            <header class="header">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Buscar tarea, proyecto o ID...">
+                    <span class="kbd">⌘K</span>
+                </div>
+                <div class="user-actions">
+                    <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Cambiar tema">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button class="icon-btn" onclick="showToast('No hay notificaciones nuevas')">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="dot"></span>
+                    </button>
+                    <div class="profile-pill">
+                        <div class="avatar">AT</div>
+                        <div class="info">
+                            <h4>Ana Torres</h4>
+                            <p>Admin · Sistemas</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-area">
+                
+                <section id="v-dashboard" class="view active">
+                    <div class="page-header">
+                        <div>
+                            <h1>Dashboard</h1>
+                            <p>Planifica, prioriza y logra tus objetivos con facilidad.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i> Nueva Tarea</button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card dark">
+                            <div class="stat-title">Total Tareas</div>
+                            <div class="stat-val">128</div>
+                            <div class="stat-trend"><i class="fa-solid fa-arrow-trend-up trend-icon"></i> 8% Incremento</div>
+                            <a href="#" class="arrow-link" onclick="document.querySelector('[data-view=tareas]').click()"><i class="fa-solid fa-arrow-right" style="transform: rotate(-45deg);"></i></a>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Completadas</div>
+                            <div class="stat-val">49</div>
+                            <div class="stat-trend"><i class="fa-solid fa-arrow-trend-up trend-icon"></i> 12% Incremento</div>
+                            <a href="#" class="arrow-link"><i class="fa-solid fa-arrow-right" style="transform: rotate(-45deg);"></i></a>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">En Proceso</div>
+                            <div class="stat-val">42</div>
+                            <div class="stat-trend"><i class="fa-solid fa-arrow-trend-up trend-icon"></i> 5% Incremento</div>
+                            <a href="#" class="arrow-link"><i class="fa-solid fa-arrow-right" style="transform: rotate(-45deg);"></i></a>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Pendientes / Vencidas</div>
+                            <div class="stat-val">37</div>
+                            <div class="stat-trend" style="background:none; padding:0; color:var(--text-light);">Requieren atención</div>
+                            <a href="#" class="arrow-link"><i class="fa-solid fa-arrow-right" style="transform: rotate(-45deg);"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="dash-grid-mid">
+                        <div class="card">
+                            <h3 class="card-title">Analíticas de Rendimiento</h3>
+                            <div class="css-bar-chart">
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar striped" style="height: 50%;"></div></div><span class="bar-label">D</span></div>
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar solid-light" style="height: 80%;"></div></div><span class="bar-label">L</span></div>
+                                <div class="bar-col">
+                                    <div class="bar-wrap">
+                                        <div class="bar-tooltip">74%</div>
+                                        <div class="bar solid-light" style="height: 74%;"></div>
+                                    </div>
+                                    <span class="bar-label">M</span>
+                                </div>
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar solid-dark" style="height: 100%;"></div></div><span class="bar-label">M</span></div>
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar striped" style="height: 60%;"></div></div><span class="bar-label">J</span></div>
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar striped" style="height: 45%;"></div></div><span class="bar-label">V</span></div>
+                                <div class="bar-col"><div class="bar-wrap"><div class="bar striped" style="height: 70%;"></div></div><span class="bar-label">S</span></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Distribución por Área</h3>
+                            <div class="h-bars-container">
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Sistemas</span> <span>54%</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 54%; background: var(--primary-dark);"></div></div>
+                                </div>
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Diseño</span> <span>31%</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 31%; background: var(--primary);"></div></div>
+                                </div>
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Contabilidad</span> <span>15%</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 15%; background: var(--text-light);"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title">Resumen de Estados</h3>
+                            <div class="h-bars-container">
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Completadas</span> <span>49</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 38%; background: var(--success);"></div></div>
+                                </div>
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>En Proceso</span> <span>42</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 32%; background: var(--warning);"></div></div>
+                                </div>
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Pendientes</span> <span>31</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 24%; background: var(--text-light);"></div></div>
+                                </div>
+                                <div class="h-bar-row">
+                                    <div class="h-bar-label"><span>Vencidas</span> <span>6</span></div>
+                                    <div class="bar-bg"><div class="bar-fill" style="width: 6%; background: var(--danger);"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dash-grid-mid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Colaboración de Equipo (Top)</h3>
+                                <button class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size:12px;" onclick="document.querySelector('[data-view=usuarios]').click()">Ver Directorio</button>
+                            </div>
+                            <div id="teamRanking"></div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Urgentes</h3>
+                                <button class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size:12px;" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                            <div id="urgentList"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3 class="card-title" style="text-align: center;">Progreso Global</h3>
+                            <div class="donut-wrap">
+                                <div class="donut-inner">
+                                    <h2>41%</h2>
+                                    <p>Completadas</p>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item"><div class="dot" style="background:var(--primary-dark)"></div> Finalizado</div>
+                                <div class="legend-item"><div class="dot" style="background:var(--primary)"></div> En Proceso</div>
+                                <div class="legend-item"><div class="dot" style="background:repeating-linear-gradient(45deg, var(--border), var(--border) 4px, transparent 4px, transparent 8px)"></div> Pendiente</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="v-tareas" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1>Directorio de Tareas</h1>
+                            <p>Lista general · 24 resultados encontrados</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i> Nueva Tarea</button>
+                    </div>
+
+                    <div class="card" style="padding: 24px 24px 0 24px; overflow: hidden;">
+                        <div class="table-toolbar">
+                            <div class="select-chip" style="flex:1; min-width: 250px;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" placeholder="Buscar por título o ID...">
+                            </div>
+                            <div class="select-chip"><select><option>Todos los estatus</option><option>Pendiente</option><option>En proceso</option><option>Completada</option></select></div>
+                            <div class="select-chip"><select><option>Todas las áreas</option><option>Sistemas</option><option>Diseño</option></select></div>
+                            <div class="select-chip"><select><option>Toda prioridad</option><option>Urgente</option><option>Alta</option></select></div>
+                        </div>
+
+                        <div class="table-wrap" style="border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom: none;">
+                            <table>
+                                <thead><tr><th>ID</th><th>Título y Descripción</th><th>Prioridad</th><th>Asignado a</th><th>Progreso</th><th>F. Límite</th><th>Estatus</th><th></th></tr></thead>
+                                <tbody id="tareasBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="v-asignaciones" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1>Asignaciones y Carga</h1>
+                            <p>Distribuye el trabajo y balancea al equipo operativamente.</p>
+                        </div>
+                    </div>
+
+                    <div class="assign-grid">
+                        <div class="card">
+                            <h3 class="card-title" style="margin-bottom: 24px;">Reasignar Tarea Existente</h3>
+                            <form onsubmit="event.preventDefault(); showToast('Tarea reasignada correctamente');">
+                                <div class="field">
+                                    <label>Seleccionar Tarea</label>
+                                    <select id="taskSelect" onchange="autofillAssign(this)">
+                                        <option value="Alta|Sistemas">#T-0142 — Migrar base de datos a MySQL 8</option>
+                                        <option value="Urgente|Sistemas">#T-0139 — Corregir bug de login</option>
+                                        <option value="Media|Diseño">#T-0135 — Rediseñar pantalla de reportes</option>
+                                    </select>
+                                </div>
+                                <div class="form-grid-2">
+                                    <div class="field">
+                                        <label>Área (Autocompletada)</label>
+                                        <input type="text" id="assignArea" value="Sistemas" readonly style="color: var(--text-muted); opacity: 0.8;">
+                                    </div>
+                                    <div class="field">
+                                        <label>Prioridad</label>
+                                        <select id="assignPriority"><option>Alta</option><option>Urgente</option><option>Media</option><option>Baja</option></select>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Asignar a Colaborador</label>
+                                    <select>
+                                        <option>Diego Ramos (6 activas)</option>
+                                        <option>Carlos Méndez (4 activas)</option>
+                                        <option>Laura Ibarra (2 activas)</option>
+                                        <option>Sofía Nuñez (1 activa)</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Estatus Inicial</label>
+                                    <select><option>Asignada</option><option>En proceso</option></select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 10px;"><i class="fa-solid fa-check"></i> Confirmar Asignación</button>
+                            </form>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Carga de Trabajo Activa</h3>
+                                <span class="card-subtitle">Tareas por usuario</span>
+                            </div>
+                            <div id="workloadBody"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="v-kanban" class="view">
+                    <div class="page-header" style="margin-bottom: 8px;">
+                        <div>
+                            <h1>Tablero Kanban</h1>
+                            <p>Arrastra las tarjetas para actualizar su estado en tiempo real.</p>
+                        </div>
+                    </div>
+                    <div class="kanban-wrap" id="kanbanWrap"></div>
+                </section>
+
+                <section id="v-usuarios" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1>Directorio de Usuarios</h1>
+                            <p>9 cuentas registradas en el sistema.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="openModal('userModal')"><i class="fa-solid fa-user-plus"></i> Nuevo Usuario</button>
+                    </div>
+                    <div class="card" style="padding: 0; overflow: hidden;">
+                        <div class="table-wrap" style="border: none;">
+                            <table>
+                                <thead><tr><th>Usuario</th><th>Correo</th><th>Área</th><th>Rol</th><th>Tareas Activas</th><th>Estatus</th><th></th></tr></thead>
+                                <tbody id="usuariosBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="v-roles" class="view">
+                    <div class="page-header">
+                        <div>
+                            <h1>Roles y Permisos</h1>
+                            <p>Controla los accesos y capacidades de cada perfil.</p>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="showToast('Función en desarrollo')"><i class="fa-solid fa-plus"></i> Nuevo Rol</button>
+                    </div>
+                    <div class="dash-grid-mid" id="rolesGrid"></div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Crear Nueva Tarea</h3>
+                <i class="fa-solid fa-xmark close-btn" onclick="closeModal('taskModal')"></i>
+            </div>
+            <form onsubmit="event.preventDefault(); showToast('Tarea creada con éxito'); closeModal('taskModal');">
+                <div class="field">
+                    <label>Título de la tarea</label>
+                    <input type="text" placeholder="Ej: Actualizar dependencias" required>
+                </div>
+                <div class="field">
+                    <label>Descripción corta</label>
+                    <input type="text" placeholder="Detalles breves..." required>
+                </div>
+                <div class="form-grid-2">
+                    <div class="field">
+                        <label>Prioridad</label>
+                        <select><option>Media</option><option>Alta</option><option>Urgente</option><option>Baja</option></select>
+                    </div>
+                    <div class="field">
+                        <label>Fecha Límite</label>
+                        <input type="date" required>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('taskModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Crear Tarea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Crear Nuevo Usuario</h3>
+                <i class="fa-solid fa-xmark close-btn" onclick="closeModal('userModal')"></i>
+            </div>
+            <form onsubmit="event.preventDefault(); showToast('Usuario invitado con éxito'); closeModal('userModal');">
+                <div class="field">
+                    <label>Nombre Completo</label>
+                    <input type="text" placeholder="Ej: Juan Pérez" required>
+                </div>
+                <div class="field">
+                    <label>Correo Electrónico</label>
+                    <input type="email" placeholder="juan@empresa.com" required>
+                </div>
+                <div class="form-grid-2">
+                    <div class="field">
+                        <label>Área</label>
+                        <select><option>Sistemas</option><option>Diseño</option><option>Ventas</option></select>
+                    </div>
+                    <div class="field">
+                        <label>Rol</label>
+                        <select><option>Colaborador</option><option>Editor</option><option>Admin</option></select>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                    <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('userModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Enviar Invitación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" style="color: var(--success);"></i> <span id="toastMsg">Mensaje</span>
+    </div>
+
+    <script>
+        // --- NAVEGACIÓN Y LOGIN ---
+        function doLogin() {
+            document.getElementById('view-login').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('view-login').style.display = 'none';
+                const app = document.getElementById('app-shell');
+                app.style.display = 'flex';
+                void app.offsetWidth; 
+                app.style.opacity = '1';
+                showToast('Bienvenido Ana Torres');
+            }, 300);
+        }
+
+        document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                const viewId = e.currentTarget.getAttribute('data-view');
+                document.getElementById('v-' + viewId).classList.add('active');
+            });
+        });
+
+        // --- THEME TOGGLE ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            
+            const icon = document.querySelector('#themeBtn i');
+            if(next === 'dark') {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // --- MODALS & TOAST ---
+        function openModal(id) { document.getElementById(id).classList.add('show'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+        
+        let toastTimer;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // --- DATOS ---
+        const colors = {
+            'Urgente': { text: 'var(--danger)', bg: 'var(--danger-bg)' },
+            'Alta': { text: 'var(--warning)', bg: 'var(--warning-bg)' },
+            'Media': { text: 'var(--primary)', bg: 'var(--primary-light)' },
+            'Baja': { text: 'var(--text-muted)', bg: 'var(--bg-subtle)' },
+            'En proceso': { text: 'var(--warning)', bg: 'var(--warning-bg)' },
+            'En revisión': { text: 'var(--info)', bg: 'var(--info-bg)' },
+            'Asignada': { text: 'var(--primary)', bg: 'var(--primary-light)' },
+            'Completada': { text: 'var(--success)', bg: 'var(--success-bg)' },
+            'Pendiente': { text: 'var(--text-muted)', bg: 'var(--bg-subtle)' },
+            'Vencida': { text: 'var(--danger)', bg: 'var(--danger-bg)' },
+            'Activo': { text: 'var(--success)', bg: 'var(--success-bg)' },
+            'Inactivo': { text: 'var(--text-muted)', bg: 'var(--bg-subtle)' },
+            'Invitado': { text: 'var(--warning)', bg: 'var(--warning-bg)' }
+        };
+
+        const tareas = [
+            {id:'T-0142', titulo:'Migrar base de datos a MySQL 8', sub:'Actualizar motor y validar', prioridad:'Alta', asignado:'Carlos Méndez', progreso:[3,5], fecha:'28 jul 2026', estatus:'En proceso'},
+            {id:'T-0139', titulo:'Corregir bug de login', sub:'Fallo intermitente', prioridad:'Urgente', asignado:'Laura Ibarra', progreso:[1,2], fecha:'24 jul 2026', estatus:'En revisión'},
+            {id:'T-0135', titulo:'Rediseñar pantalla de reportes', sub:'Layout con filtros', prioridad:'Media', asignado:'Diego Ramos', progreso:[0,4], fecha:'02 ago 2026', estatus:'Asignada'},
+            {id:'T-0128', titulo:'Actualizar catálogo contable', sub:'Sincronizar APIs', prioridad:'Baja', asignado:'Sofía Nuñez', progreso:[2,2], fecha:'19 jul 2026', estatus:'Completada'},
+            {id:'T-0121', titulo:'Configurar backups auto', sub:'Cron diario', prioridad:'Alta', asignado:'Carlos Méndez', progreso:[1,3], fecha:'30 jul 2026', estatus:'Pendiente'},
+            {id:'T-0117', titulo:'Optimizar consultas', sub:'Reducir tiempo de carga', prioridad:'Media', asignado:'Diego Ramos', progreso:[4,6], fecha:'25 jul 2026', estatus:'En proceso'},
+            {id:'T-0104', titulo:'Revisar permisos Admin', sub:'Auditoría de accesos', prioridad:'Urgente', asignado:'Sofía Nuñez', progreso:[2,2], fecha:'16 jul 2026', estatus:'Vencida'}
+        ];
+
+        const usuarios = [
+            {name:'Ana Torres', email:'ana.torres@mail.com', area:'Sistemas', rol:'Admin', activas:5, estatus:'Activo'},
+            {name:'Carlos Méndez', email:'carlos.mendez@mail.com', area:'Sistemas', rol:'Colaborador', activas:4, estatus:'Activo'},
+            {name:'Laura Ibarra', email:'laura.ibarra@mail.com', area:'Sistemas', rol:'Colaborador', activas:2, estatus:'Activo'},
+            {name:'Diego Ramos', email:'diego.ramos@mail.com', area:'Sistemas', rol:'Editor', activas:6, estatus:'Activo'},
+            {name:'Sofía Nuñez', email:'sofia.nunez@mail.com', area:'Sistemas', rol:'Colaborador', activas:1, estatus:'Activo'},
+            {name:'Mariana Solís', email:'mariana.solis@mail.com', area:'Diseño', rol:'Editor', activas:3, estatus:'Activo'},
+            {name:'Jorge Ponce', email:'jorge.ponce@mail.com', area:'Contabilidad', rol:'Colaborador', activas:2, estatus:'Inactivo'},
+            {name:'Iván Salas', email:'ivan.salas@mail.com', area:'Diseño', rol:'Colaborador', activas:0, estatus:'Invitado'},
+        ];
+
+        const roles = [
+            {nombre:'Administrador', desc:'Acceso total al sistema.', color:'var(--danger)', tint:'var(--danger-bg)', count:1, permisos:['Ver todo', 'Gestionar']},
+            {nombre:'Editor', desc:'Gestiona tareas de su área.', color:'var(--primary)', tint:'var(--primary-light)', count:2, permisos:['Crear', 'Editar']},
+            {nombre:'Colaborador', desc:'Trabaja en sus asignaciones.', color:'var(--success)', tint:'var(--success-bg)', count:6, permisos:['Actualizar', 'Comentar']},
+        ];
+
+        const workload = [ {name:'Diego Ramos', count:6, max:8}, {name:'Carlos Méndez', count:4, max:8}, {name:'Laura Ibarra', count:2, max:8}, {name:'Sofía Nuñez', count:1, max:8} ];
+        
+        function getInitials(name) { return name.split(' ').map(n=>n[0]).join('').substring(0,2); }
+        function getBadge(text) { 
+            const c = colors[text] ? colors[text] : { text: 'var(--text-muted)', bg: 'var(--bg-subtle)' };
+            let border = (text === 'Pendiente' || text === 'Inactivo') ? 'border:1px solid var(--border);' : 'border:1px solid transparent;';
+            return `<span class="pill" style="color:${c.text}; background:${c.bg}; ${border}"><span class="dot" style="background:${c.text}; width:6px; height:6px;"></span> ${text}</span>`;
+        }
+
+        // --- RENDERIZADO ---
+        function renderTareas() {
+            const html = tareas.map(t => `
+                <tr>
+                    <td class="id-cell">${t.id}</td>
+                    <td class="title-cell">${t.titulo}<div class="sub">${t.sub}</div></td>
+                    <td>${getBadge(t.prioridad)}</td>
+                    <td>
+                        <div class="assignee">
+                            <div class="avatar">${getInitials(t.asignado)}</div>
+                            ${t.asignado}
+                        </div>
+                    </td>
+                    <td><div class="progress-mini">${t.progreso[0]}/${t.progreso[1]} <div class="bar-bg" style="width: 50px; height: 6px; border-radius: 6px; background: var(--border); overflow: hidden; margin-top: 2px;"><div class="bar-fill" style="height: 100%; border-radius: 6px; background: var(--primary); width:${(t.progreso[0]/t.progreso[1])*100}%"></div></div></div></td>
+                    <td style="color:${t.estatus==='Vencida'?'var(--danger)':'var(--text-muted)'}; font-size:12px; font-weight:${t.estatus==='Vencida'?'600':'500'};">${t.fecha}</td>
+                    <td>${getBadge(t.estatus)}</td>
+                    <td>
+                        <div class="row-actions">
+                            <button class="icon-btn" style="width: 32px; height: 32px;" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            document.getElementById('tareasBody').innerHTML = html;
+        }
+
+        function renderUsuarios() {
+            const html = usuarios.map(u => `
+                <tr>
+                    <td>
+                        <div class="assignee">
+                            <div class="avatar" style="width:32px; height:32px; font-size:12px;">${getInitials(u.name)}</div>
+                            <span style="font-weight:600; color:var(--text-main);">${u.name}</span>
+                        </div>
+                    </td>
+                    <td style="color:var(--text-muted); font-size:13px;">${u.email}</td>
+                    <td style="font-weight:500;">${u.area}</td>
+                    <td><span class="pill" style="background:var(--primary-light); color:var(--primary-dark);">${u.rol}</span></td>
+                    <td style="font-weight:600; font-family:'JetBrains Mono';">${u.activas}</td>
+                    <td>${getBadge(u.estatus)}</td>
+                    <td><div class="row-actions"><button class="icon-btn" style="width: 32px; height: 32px;" title="Editar"><i class="fa-solid fa-pen"></i></button></div></td>
+                </tr>
+            `).join('');
+            document.getElementById('usuariosBody').innerHTML = html;
+        }
+
+        function renderRoles() {
+            const html = roles.map(r => `
+                <div class="card" style="padding: 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                        <div>
+                            <h3 style="font-size:15px; font-weight:700; margin-bottom:4px;">${r.nombre}</h3>
+                            <p style="font-size:12px; color:var(--text-muted);">${r.desc}</p>
+                        </div>
+                        <span class="pill" style="background:${r.tint}; color:${r.color}; font-weight:700;">${r.count} usuarios</span>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                        ${r.permisos.map(p => `<span class="pill" style="background:var(--bg-subtle); color:var(--text-muted); border:1px solid var(--border); font-weight:500;"><span class="dot" style="background:${r.color}; width:6px; height:6px;"></span>${p}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('rolesGrid').innerHTML = html;
+        }
+
+        function renderDashboardLists() {
+            const urg = tareas.filter(t => t.estatus === 'Vencida' || t.estatus === 'En proceso').slice(0,4);
+            const urgIcons = {'Vencida': {ic: 'fa-triangle-exclamation', bg: 'var(--danger-bg)', col: 'var(--danger)'}, 'En proceso': {ic: 'fa-clock', bg: 'var(--warning-bg)', col: 'var(--warning)'}};
+            document.getElementById('urgentList').innerHTML = urg.map(t => {
+                const style = urgIcons[t.estatus];
+                return `
+                <div class="list-item">
+                    <div class="item-icon" style="background:${style.bg}; color:${style.col};"><i class="fa-solid ${style.ic}"></i></div>
+                    <div class="item-info"><h4>${t.titulo}</h4><p>Resp: ${t.asignado} · ${t.fecha}</p></div>
+                </div>`;
+            }).join('');
+
+            const sortedW = [...workload].sort((a,b) => b.count - a.count);
+            document.getElementById('teamRanking').innerHTML = sortedW.map(w => `
+                <div class="list-item">
+                    <div class="avatar" style="width:36px; height:36px; border-radius:50%; background:var(--primary-light); color:var(--primary-dark); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex-shrink:0;">${getInitials(w.name)}</div>
+                    <div class="item-info" style="flex:1;">
+                        <h4>${w.name}</h4>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <div class="bar-bg" style="width:100%; height:6px; border-radius:6px; background:var(--border); overflow:hidden;"><div class="bar-fill" style="height:100%; width:${(w.count/w.max)*100}%; background:${w.count>=6?'var(--warning)':'var(--primary)'}"></div></div>
+                            <span style="font-size:11px; font-weight:700; color:var(--text-muted); font-family:'JetBrains Mono';">${w.count}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderWorkload() {
+            const html = workload.map(w => `
+                <div class="workload-row" style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);">
+                    <div class="avatar" style="width:36px; height:36px; border-radius:50%; background:var(--bg-subtle); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; color:var(--text-muted);">${getInitials(w.name)}</div>
+                    <div class="info" style="flex: 1;">
+                        <div class="name" style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">${w.name}</div>
+                        <div class="count" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">${w.count} tareas activas</div>
+                        <div class="bar-bg" style="width:100%; height:6px; border-radius:6px; background:var(--border); overflow:hidden;"><div class="bar-fill" style="height: 100%; width:${(w.count/w.max)*100}%; background:${w.count>=6 ? 'var(--warning)' : 'var(--primary)'}"></div></div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('workloadBody').innerHTML = html;
+        }
+
+        // --- KANBAN LOGIC ---
+        const kanbanCols = ['Pendiente', 'Asignada', 'En proceso', 'En revisión', 'Completada'];
+        function renderKanban() {
+            const cols = {}; kanbanCols.forEach(c => cols[c] = []);
+            tareas.forEach(t => { if(cols[t.estatus]) cols[t.estatus].push(t); else cols['Pendiente'].push(t); });
+            
+            let html = '';
+            kanbanCols.forEach(col => {
+                let cards = cols[col].map(t => `
+                    <div class="kcard" draggable="true" ondragstart="drag(event)" id="${t.id}">
+                        <div class="kid">${t.id}</div>
+                        <div class="ktitle">${t.titulo}</div>
+                        <div class="kfoot">
+                            ${getBadge(t.prioridad)}
+                            <div class="kmeta" style="font-size: 11px; color: var(--text-muted); display:flex; gap:4px; align-items:center;"><i class="fa-regular fa-calendar"></i> ${t.fecha.split(' ')[0]}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                let dotColor = colors[col] ? colors[col].text : 'var(--text-muted)';
+                html += `
+                    <div class="kanban-col" ondrop="drop(event, '${col}')" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">
+                        <div class="kanban-col-head">
+                            <span class="dot" style="background:${dotColor}; width:8px; height:8px; border-radius:50%;"></span>
+                            <h4>${col}</h4>
+                            <span class="count">${cols[col].length}</span>
+                        </div>
+                        <div class="kanban-col-body">${cards}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('kanbanWrap').innerHTML = html;
+        }
+
+        function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.querySelector('.kanban-col-body').classList.add('dragover'); }
+        function dragLeave(ev) { ev.currentTarget.querySelector('.kanban-col-body').classList.remove('dragover'); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); ev.target.classList.add('dragging'); }
+        function drop(ev, colName) {
+            ev.preventDefault();
+            const body = ev.currentTarget.querySelector('.kanban-col-body');
+            body.classList.remove('dragover');
+            var data = ev.dataTransfer.getData("text");
+            const card = document.getElementById(data);
+            if(card) {
+                card.classList.remove('dragging');
+                const task = tareas.find(t => t.id === data);
+                if(task && task.estatus !== colName) {
+                    task.estatus = colName;
+                    showToast(`Tarea ${data} actualizada a ${colName}`);
+                    renderKanban();
+                    renderTareas();
+                    renderDashboardLists();
+                }
+            }
+        }
+
+        function autofillAssign(select) {
+            const val = select.value.split('|');
+            if(val.length === 2) {
+                document.getElementById('assignPriority').value = val[0];
+                document.getElementById('assignArea').value = val[1];
+            }
+        }
+
+        // Init
+        renderTareas();
+        renderUsuarios();
+        renderRoles();
+        renderDashboardLists();
+        renderWorkload();
+        renderKanban();
+
+    </script>
+</body>
+</html>
